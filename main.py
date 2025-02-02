@@ -39,12 +39,9 @@ def search_spotify(keyword):
 
 @bot.command()
 async def search(ctx, keyword):
-  if len(keyword) < 2:
-    await ctx.send("2文字以上入力してください")
-    return
-  elif len(keyword) > 20:
+  if len(keyword) > 20:
     await ctx.send("20文字以下で入力してください")
-    return
+    return                               # returnで関数を抜けることでapiの呼び出しをしない
   
   result = search_spotify(keyword)
 
@@ -57,5 +54,9 @@ async def search(ctx, keyword):
     url = result["artists"]["items"][0]["external_urls"]["spotify"]
     message = f"複数見つかったけど、これ？{url}"
     await ctx.send(message)
+
+@bot.command()
+async def helpme(ctx):
+  await ctx.send("使えるコマンドは、「search <アーティスト名>」だよ。")
 
 bot.run(discord_token)
